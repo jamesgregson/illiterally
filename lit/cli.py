@@ -39,14 +39,9 @@ def lit_cli( argv=sys.argv ):
 
     lit( **kwargs )
 
-def make_executable(path):
-    mode = os.stat(path).st_mode
-    mode |= (mode & 0o444) >> 2    # copy R bits to X
-    os.chmod(path, mode)
-
 def lit_demo():
-    shutil.copyfile( data_file('examples/example.cpp'), './example.cpp' )
-    shutil.copyfile( data_file('examples/example.md'),  './example.md' )
+    shutil.copyfile( data_file('examples/docs/example.cpp'), './example.cpp' )
+    shutil.copyfile( data_file('examples/docs/example.md'),  './example.md' )
     with open('run.sh','w') as sh:
         sh.write('lit --source example.cpp --block block.md --output example.md')
     print('Demo files created, now run: chmod +x run.sh && ./run.sh')
@@ -54,30 +49,36 @@ def lit_demo():
 def lit_dogfood():
     # must be first since brackets are not auto-detected with text delimiters
     lit( 
-        source_files=[data_file('examples','nomoji.cpp')],
-        block_template=data_file('blocks','block.md'),
-        output_files=[data_file('examples','nomoji.md')],
+        source_files=[data_file('examples/docs/nomoji.cpp')],
+        block_template='block.md',
+        output_files=[data_file('examples/docs/nomoji.md')],
         left = '<<<:', right = ':>>>',
         output_prefix=data_file('examples'),
         output_dir=data_file('../..'),
     )
 
-    lit( 
-        source_files=[ data_file(f) for f in ['../lit.py','examples/example.cpp'] ],
+    lit(
+        source_files=[data_file('../lit.py')],
         block_template='block.md',
-        output_files=[ data_file('examples',f) for f in ['README.md','example.md'] ],
+        output_files=[ data_file('examples/README.md') ],
         output_prefix=data_file('examples'),
-        output_dir=data_file('../..'),
-        suppress = False,        
+        output_dir=data_file('../..')
     )
 
     lit( 
-        source_files=[ data_file(f) for f in ['examples/handmoji.cpp'] ],
+        source_files=[ data_file('examples/docs/example.cpp') ],
         block_template='block.md',
-        output_files=[ data_file('examples',f) for f in ['handmoji.md'] ],
+        output_files=[ data_file('examples/docs/example.md') ],
         output_prefix=data_file('examples'),
         output_dir=data_file('../..'),
-        suppress = False,        
+    )
+
+    lit( 
+        source_files=[ data_file('examples/docs/handmoji.cpp') ],
+        block_template='block.md',
+        output_files=[ data_file('examples/docs/handmoji.md') ],
+        output_prefix=data_file('examples'),
+        output_dir=data_file('../..'),
     )
 
 

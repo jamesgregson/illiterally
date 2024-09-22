@@ -1,7 +1,5 @@
 import os
 import tempfile
-import subprocess
-import stat
 
 import lit
 import lit.cli

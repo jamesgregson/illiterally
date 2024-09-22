@@ -8,7 +8,7 @@ Snippets are defined simply by having a line containing 🔥. Everything that fo
 
 ***Why is this better?*** Classic Literate Programming builds your program from source code snippets embedded within documentation. It's conceptually elegant but difficult to integrate into modern development practices. In 🔥, your code is just ordinary code with some delimiting emojis. You can use it with [CMake](https://cmake.org/) and compile as usual. You can test it with [GoogleTest](https://github.com/google/googletest), launch it in a debugger, whatever. It's just code that has irritating emojis scattered everywhere. Then 🔥 uses it to produce documents with irritating emojis scattered everywhere. Awesome!
 
-***Can we disable irritating emojis?*** 😬 Harsh question, you might be missing the point. But yes, you can provide any text strings or alternate emojis you want as begin and end tokens, as long as they won't appear in your code **and** that you can escape them properly. The ***catch*** is that it may be harder than you think to find delimiters that don't conflict with your target language and appear pleasing. So if you want to use [🫸 and 🫷](./handmoji.md) or [`<<<:` and `:>>>`](./nomoji.md)🤮 you can. 
+***Can we disable irritating emojis?*** 😬 Harsh question, you might be missing the point. But yes, you can provide any text strings or alternate emojis you want as begin and end tokens, as long as they won't appear in your code **and** that you can escape them properly. The ***catch*** is that it may be harder than you think to find delimiters that don't conflict with your target language and appear pleasing. So if you want to use [🫸 and 🫷](./docs/handmoji.md) or [`<<<:` and `:>>>`](./docs/nomoji.md)🤮 you can. 
 
 # Features
 
@@ -39,18 +39,18 @@ pip install -e .
 
 To use 🔥, you need annotated source files, output templates and a block template. Let's look at each using a basic C++ hello world example.
 
-The source files are simply regular code with 🔥 and 🧯 denoting the start and end of each snippet:
+The source files are simply regular code with 🔥 and 🧯 denoting the start and end of each snippet: 
 
-**[example.cpp](./lit/data/examples/example.cpp):**
+**[example.cpp](./lit/data/examples/docs/example.cpp):**
 `````cpp
-{{ include_file('lit/data/examples/example.cpp') }}
+{{ include_file('lit/data/examples/docs/example.cpp') }}
 `````
 
 The output templates, markdown in this case, include references to the blocks using via their slug:
 
-**[example.md](./lit/data/examples/example.md):**
+**[example.md](./lit/data/examples/docs/example.md):**
 `````text
-{{ include_file('lit/data/examples/example.md') }}
+{{ include_file('lit/data/examples/docs/example.md') }}
 `````
 
 The block template controls how each block is rendered to the file. 🔥 provides a set of basic templates for common text-based document formats but you can also define your own. Here's we'll use the built-in one for markdown [block.md](./lit/data/blocks/block.md) (note that you may want to look at the 'raw' file).

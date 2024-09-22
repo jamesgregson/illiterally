@@ -8,7 +8,7 @@ Snippets are defined simply by having a line containing 🔥. Everything that fo
 
 ***Why is this better?*** Classic Literate Programming builds your program from source code snippets embedded within documentation. It's conceptually elegant but difficult to integrate into modern development practices. In 🔥, your code is just ordinary code with some delimiting emojis. You can use it with [CMake](https://cmake.org/) and compile as usual. You can test it with [GoogleTest](https://github.com/google/googletest), launch it in a debugger, whatever. It's just code that has irritating emojis scattered everywhere. Then 🔥 uses it to produce documents with irritating emojis scattered everywhere. Awesome!
 
-***Can we disable irritating emojis?*** 😬 Harsh question, you might be missing the point. But yes, you can provide any text strings or alternate emojis you want as begin and end tokens, as long as they won't appear in your code **and** that you can escape them properly. The ***catch*** is that it may be harder than you think to find delimiters that don't conflict with your target language and appear pleasing. So if you want to use [🫸 and 🫷](./handmoji.md) or [`<<<:` and `:>>>`](./nomoji.md)🤮 you can. 
+***Can we disable irritating emojis?*** 😬 Harsh question, you might be missing the point. But yes, you can provide any text strings or alternate emojis you want as begin and end tokens, as long as they won't appear in your code **and** that you can escape them properly. The ***catch*** is that it may be harder than you think to find delimiters that don't conflict with your target language and appear pleasing. So if you want to use [🫸 and 🫷](./docs/handmoji.md) or [`<<<:` and `:>>>`](./docs/nomoji.md)🤮 you can. 
 
 # Features
 
@@ -39,9 +39,9 @@ pip install -e .
 
 To use 🔥, you need annotated source files, output templates and a block template. Let's look at each using a basic C++ hello world example.
 
-The source files are simply regular code with 🔥 and 🧯 denoting the start and end of each snippet:
+The source files are simply regular code with 🔥 and 🧯 denoting the start and end of each snippet: 
 
-**[example.cpp](./lit/data/examples/example.cpp):**
+**[example.cpp](./lit/data/examples/docs/example.cpp):**
 `````cpp
 //🔥 Let's see
 #include <iostream>
@@ -59,7 +59,7 @@ int main( int argc, char **argv ){
 
 The output templates, markdown in this case, include references to the blocks using via their slug:
 
-**[example.md](./lit/data/examples/example.md):**
+**[example.md](./lit/data/examples/docs/example.md):**
 `````text
 {% import 'macros.md.inc' as macros with context %}
 Hello World
@@ -167,22 +167,20 @@ def lit( source_files: list[str], block_template: list[str], output_files: list[
             if key in blocks: print(f'      WARNING: Block "{key}" already exists, skipping.')
             else: blocks[key] = blk
 
-    # load the block template and index all of the blocks
-    print(f'  Loading block template: {block_template}')
-    blk_template = env.from_string( open(block_template).read() )
-
-    # first pass over the output templates to flag which blocks get rendered
+    # first pass over the output templates to flag which blocks get rendered by the output templates
     for template_file in output_files:
         out_file = os.path.abspath( os.path.join( output_dir, os.path.relpath(template_file,output_prefix) ) )
         template = env.from_string( open(template_file).read() )
         template.render( blocks=blocks, block = lambda x: None, render=lambda x: blocks[x].activate(out_file), include_file=lambda x: x )
 
-    # render each block, giving access to the set of all blocks to build breadcrumbs
+    # load the block template and render each block, giving access to the set of all blocks for breadcrumbs/hierarchy
+    print(f'  Loading block template: {block_template}')
+    blk_template = env.from_string( open(block_template).read() )
     for slug,block in blocks.items():
         print(f'    Rendering block: {slug}')
         block.rendered = blk_template.render(block=block,blocks=blocks,suppress=suppress)
 
-    # process all of the output templates
+    # Second pass to process all of the output templates and resolve the lit/lit.py variable
     print(f'  Rendering output files... from {os.getcwd()}')
     for template_file in output_files:
         out_file = os.path.abspath( os.path.join( output_dir, os.path.relpath(template_file,output_prefix) ) )
