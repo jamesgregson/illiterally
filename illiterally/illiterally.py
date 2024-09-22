@@ -148,7 +148,7 @@ class BlockReader:
 # 🚗
 
 # 🚀 Entry-point
-def lit( source_files: list[str], block_template: list[str], output_files: list[str], left=None, right=None, source_prefix: str='.', output_prefix: str='.', output_dir: str='./output', suppress: bool=False ):
+def illiterally( source_files: list[str], block_template: list[str], output_files: list[str], left=None, right=None, source_prefix: str='.', output_prefix: str='.', output_dir: str='./output', suppress: bool=False ):
     block_template = block_template if os.path.exists(block_template) else data_file('blocks',block_template)
     env = jinja2.Environment(loader=jinja2.FileSystemLoader([os.path.dirname(os.path.abspath(block_template)),data_file('blocks')]))
 

@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='lit',
+    name='illiterally',
     version='0.0.1',
     packages=find_packages(),
     install_requires=[
@@ -10,8 +10,9 @@ setup(
     extras_require={},
     entry_points={
         'console_scripts': [
-            'lit=lit.cli:lit_cli',
-            'lit_demo=lit.cli:lit_demo'
+            'illiterally=illiterally.cli:illiterally_cli',
+            'illiterally_demo=illiterally.cli:illiterally_demo',
+            'illiterally_dogfood=illiterally.cli:illiterally_dogfood'
         ]
     }   
 )

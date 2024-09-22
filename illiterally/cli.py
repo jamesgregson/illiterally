@@ -4,9 +4,9 @@ import stat
 import shutil
 import argparse
 
-from lit import lit, data_file, root_dir
+from illiterally import illiterally, data_file, root_dir
 
-def lit_cli( argv=sys.argv ):
+def illiterally_cli( argv=sys.argv ):
     parser = argparse.ArgumentParser('lit')
     parser.add_argument('-s',         '--source', type=str, required=True,      help='Source file')
     parser.add_argument('-b',          '--block', type=str, required=True,      help='Block template')
@@ -37,18 +37,18 @@ def lit_cli( argv=sys.argv ):
         kwargs['left']  = args.left
         kwargs['right'] = args.right
 
-    lit( **kwargs )
+    illiterally( **kwargs )
 
-def lit_demo():
+def illiterally_demo():
     shutil.copyfile( data_file('examples/docs/example.cpp'), './example.cpp' )
     shutil.copyfile( data_file('examples/docs/example.md'),  './example.md' )
     with open('run.sh','w') as sh:
-        sh.write('lit --source example.cpp --block block.md --output example.md')
+        sh.write('illiterally --source example.cpp --block block.md --output example.md')
     print('Demo files created, now run: chmod +x run.sh && ./run.sh')
 
-def lit_dogfood():
+def illiterally_dogfood():
     # must be first since brackets are not auto-detected with text delimiters
-    lit( 
+    illiterally( 
         source_files=[data_file('examples/docs/nomoji.cpp')],
         block_template='block.md',
         output_files=[data_file('examples/docs/nomoji.md')],
@@ -57,7 +57,7 @@ def lit_dogfood():
         output_dir=data_file('../..'),
     )
 
-    lit(
+    illiterally(
         source_files=[data_file('../lit.py')],
         block_template='block.md',
         output_files=[ data_file('examples/README.md') ],
@@ -65,7 +65,7 @@ def lit_dogfood():
         output_dir=data_file('../..')
     )
 
-    lit( 
+    illiterally( 
         source_files=[ data_file('examples/docs/example.cpp') ],
         block_template='block.md',
         output_files=[ data_file('examples/docs/example.md') ],
@@ -73,7 +73,7 @@ def lit_dogfood():
         output_dir=data_file('../..'),
     )
 
-    lit( 
+    illiterally( 
         source_files=[ data_file('examples/docs/handmoji.cpp') ],
         block_template='block.md',
         output_files=[ data_file('examples/docs/handmoji.md') ],
@@ -83,4 +83,4 @@ def lit_dogfood():
 
 
 if __name__ == '__main__':
-    lit_dogfood()
+    illiterally_dogfood()

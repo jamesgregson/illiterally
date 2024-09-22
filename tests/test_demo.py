@@ -1,8 +1,8 @@
 import os
 import tempfile
 
-import lit
-import lit.cli
+import illiterally
+import illiterally.cli
 
 def run_in_temp_directory():
     def decorator( fn: callable ):
@@ -18,8 +18,8 @@ def run_in_temp_directory():
 
 @run_in_temp_directory()
 def test_demo( test_dir: str=None ):
-    lit.cli.lit_demo()
-    lit.cli.lit_cli( open('run.sh').read().split() )
+    illiterally.cli.lit_demo()
+    illiterally.cli.lit_cli( open('run.sh').read().split() )
     assert os.path.exists('output/example.md')
 
 if __name__ == '__main__':

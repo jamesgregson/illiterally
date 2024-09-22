@@ -1,6 +1,6 @@
 {% import 'macros.md.inc' as macros with context %}
 illiterally 🔥
-============
+============== 
 
 Welcome to 🔥, the simplest (il)literate programming tool ever envisioned. Rather than assembling your program from code fragments scattered through documentation like conventional [Literate Programming](https://en.wikipedia.org/wiki/Literate_programming), 🔥 generates documentation by extracting snippets bracketed by emojis from your code. Then it renders them into documentation templates with Jinja.
 
