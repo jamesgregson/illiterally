@@ -1,22 +1,26 @@
-#### <a name="{{block.slug}}"></a>{{block.left}}**{{block.name}}**{{block.right}}: [{%raw%}{{SRC_PATH}}{%endraw%}: {{block.line}}]({%raw%}{{SRC_PATH}}{%endraw%})
+{% import 'macros.md.inc' as macros with context %}
+{%- set __blk = block(slug) -%}
+#### <a name="{{__blk.slug}}"></a>{{__blk.left}}**{{__blk.name}}**{{__blk.right}}: [{{__blk.source_path(__file__)}}: {{__blk.line}}]({{__blk.source_path(__file__)}})
 ___
 ```python
-{{block.text}}
+{{__blk.text}}
 ```
 
-{% if block.parent -%}
+{% if __blk.parent -%}
     <span>
-        {%- for comp in block.path -%}
-            {%- if blocks[comp].is_rendered and blocks[comp].slug != block.slug -%}
-                [{{blocks[comp].name}}](#{{comp}})
+        {%- for comp in __blk.path -%}
+            {%- if comp != __blk.slug -%}
+                {{ macros.ref_or_name(comp) }} |&nbsp;
             {%- else -%}
-                {{blocks[comp].name}}
+                {{ __blk.name }}
             {%- endif -%}
-            {%- if comp != block.slug %} | {% endif -%}
         {%- endfor -%}
     </span>
 {%- endif %}
-{% for ref in block.nested %}
-- {% if blocks[ref].is_rendered %}[{{blocks[ref].name}}](#{{ref}}){% else %}{{blocks[ref].name}}{%endif%}
+{% for cref in __blk.nested %}
+{%- set child = block(cref) -%}
+{%- if child and child.is_rendered -%}
+- {{ macros.ref_or_name(cref) }}
+{% endif -%}
 {% endfor %}
 ___

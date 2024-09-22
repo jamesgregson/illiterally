@@ -4,10 +4,10 @@ Hello World
 
 Let's give this a try:
 
-{{ render('let-s-see') }}
+{{ macros.render('let-s-see') }}
 
 I guess it works:
 
-{{ render('maybe') }}
+{{ macros.render('maybe') }}
 
 Here's a reference to the top level {{ macros.ref('let-s-see') }}.

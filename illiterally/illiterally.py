@@ -1,4 +1,4 @@
-# 🚀 Lit Implementation
+# 🚀 Illiterally Implementation
 import dataclasses
 import slugify
 import jinja2
@@ -46,7 +46,14 @@ class Block:
     def render(self,into: str):
         assert self.rendered_into in [None,into]
         return self.rendered.replace( '{{SRC_PATH}}',os.path.relpath(self.filename,os.path.dirname(self.rendered_into)))
-    
+
+    def source_path( self, targ: str ):
+        return os.path.relpath( self.filename, os.path.dirname(targ) )
+
+    def ref(self, targ: str ):
+        if self.rendered_into == targ:
+            return ''
+        return os.path.relpath( self.rendered_into, os.path.dirname(targ) ) if self.rendered_into else 'INVALID'
 # 🚗
 
 # 🚀 Block Reader
@@ -154,6 +161,12 @@ def illiterally( source_files: list[str], block_template: list[str], output_file
 
     # index all of the source files
     print('Starting 🔥')
+
+    # load the block template
+    print(f'  Loading block template: {block_template}')
+    blk_template = env.from_string( open(block_template).read() )
+    
+    # generate index of all blocks in the source files
     blocks = {}
     out_to_src_path = os.path.relpath( os.path.abspath(source_prefix), os.path.abspath(output_dir) )
     print('  Building index:')
@@ -165,18 +178,17 @@ def illiterally( source_files: list[str], block_template: list[str], output_file
             if key in blocks: print(f'      WARNING: Block "{key}" already exists, skipping.')
             else: blocks[key] = blk
 
+    def block_cb( slug: str ):
+        return blocks[slug] if slug in blocks else None
+    
+    def render_cb1( out_file: str, slug: str ):
+        return blocks[slug].activate(out_file) if slug in blocks else None
+
     # first pass over the output templates to flag which blocks get rendered by the output templates
     for template_file in output_files:
         out_file = os.path.abspath( os.path.join( output_dir, os.path.relpath(template_file,output_prefix) ) )
         template = env.from_string( open(template_file).read() )
-        template.render( blocks=blocks, block = lambda x: None, render=lambda x: blocks[x].activate(out_file), include_file=lambda x: x )
-
-    # load the block template and render each block, giving access to the set of all blocks for breadcrumbs/hierarchy
-    print(f'  Loading block template: {block_template}')
-    blk_template = env.from_string( open(block_template).read() )
-    for slug,block in blocks.items():
-        print(f'    Rendering block: {slug}')
-        block.rendered = blk_template.render(block=block,blocks=blocks,suppress=suppress)
+        template.render( __file__ = out_file, block=block_cb, render_block=lambda slug: render_cb1(out_file,slug), include_file=lambda x: x )
 
     # Second pass to process all of the output templates and resolve the {{SRC_PATH}} variable
     print(f'  Rendering output files... from {os.getcwd()}')
@@ -184,12 +196,12 @@ def illiterally( source_files: list[str], block_template: list[str], output_file
         out_file = os.path.abspath( os.path.join( output_dir, os.path.relpath(template_file,output_prefix) ) )
         os.makedirs( os.path.dirname( out_file ), exist_ok=True )
         print(f'    Rendering file: {os.path.abspath(out_file)}')
+
+        def render_cb( slug ):
+            return blk_template.render( __file__ = out_file, slug=slug, block=block_cb, blocks=blocks, suppress=suppress )
+
         template = env.from_string( open(template_file).read() )
         with open( out_file, 'w' ) as outf:
-            outf.write( template.render(
-                block=lambda x: blocks[x] if x in blocks else None,
-                render=lambda x: blocks[x].render(out_file),
-                include_file=lambda x: read_file(source_prefix,x),
-            ))
+            outf.write( template.render( __file__ = out_file, block=block_cb, render_block=render_cb, include_file=lambda x: read_file(source_prefix,x) ))
 # 🚗
 # 🚗

@@ -58,9 +58,9 @@ def illiterally_dogfood():
     )
 
     illiterally(
-        source_files=[data_file('../lit.py')],
+        source_files=[data_file('../illiterally.py')],
         block_template='block.md',
-        output_files=[ data_file('examples/README.md') ],
+        output_files=[ data_file('examples/README.md'), data_file('examples/docs/implementation.md') ],
         output_prefix=data_file('examples'),
         output_dir=data_file('../..')
     )

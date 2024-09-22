@@ -5,7 +5,7 @@ setup(
     version='0.0.1',
     packages=find_packages(),
     install_requires=[
-        'python-slugify', 'jinja2', 'emoji'
+        'python-slugify', 'jinja2', 'emoji', 'pytest'
     ],
     extras_require={},
     entry_points={
