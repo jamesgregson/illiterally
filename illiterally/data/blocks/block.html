@@ -1,10 +1,12 @@
-{%- import 'macros.md.inc' as macros with context -%}
+{%- import 'macros.html.inc' as macros with context -%}
 {%- set __blk = block(slug) -%}
-#### <a name="{{__blk.slug}}"></a>{{__blk.left}}**{{__blk.name}}**{{__blk.right}}: [{{__blk.source_path(__file__)}}: {{__blk.line}}]({{__blk.source_path(__file__)}})
-___
-```python
+<p>
+<a name="{{__blk.slug}}"></a>
+<h6>{{__blk.left}}<b>{{__blk.name}}</b>{{__blk.right}}: <a href="{{__blk.source_path(__file__)}}">{{__blk.source_path(__file__)}}: {{__blk.line}}</a></h6>
+<hr>
+<pre>
 {{__blk.text}}
-```
+</pre>
 {% if __blk.parent -%}
     <span>
         {%- for comp in __blk.path -%}
@@ -16,10 +18,13 @@ ___
         {%- endfor -%}
     </span>
 {%- endif %}
+<ul>
 {% for cref in __blk.nested %}
 {%- set child = block(cref) -%}
 {%- if child and child.is_rendered -%}
-- {{ macros.ref_or_name(cref) }}
+<li> {{ macros.ref_or_name(cref) }} </li>
 {% endif -%}
 {% endfor %}
-___
+</ul>
+<hr>
+</p>

@@ -17,10 +17,21 @@ Here's some key features of 🔥:
 - **🔥 is simple:** The whole thing is around 200loc, generously. Want to change it? You definitely can.
 - **🔥 is unopinionated:** 🔥 maps text to text. It doesn't really care what's in the text before or after as long as there's delimiters.
 - **🔥 is unobtrusive:** It does not try to replace your work flow or tool chain. You just chuck some comments in your code.
-- **🔥 has a CLI and API:** When installed via pip, 🔥 exposes a simple `illiterally` command that mirrors the single `illiterally.illiterally` API call.
+- **🔥 has a CLI and API:** When installed via pip, 🔥 exposes a simple `illiterally` command that mirrors the one public API call.
 - **🔥 has delimiter suppression:** Suppress ***all*** delimiters in output if you're feeling extra professional.
 - **🔥 auto-detects delimiters:** If not specified, the first two distinct emojis in the file serve as block delimiters 
 - **🔥 is as irritating as Jinja:** You probably messed up a template or slug. 
+
+# Supported Formats
+
+Really any reasonable text-based format can likely be supported, however there are currently samples for the following formats:
+
+| Format | Example | Block Template | Output |
+|--------|---------|----------------|--------|
+| Markdown | [example](illiterally/data/examples/docs/example.md)   | [template](illiterally/data/blocks/block.md)   | [Output](./docs/example.md)   |
+| HTML     | [example](illiterally/data/examples/docs/example.html) | [template](illiterally/data/blocks/block.html) | [Output](./docs/example.html) |
+| Latex    | [example](illiterally/data/examples/docs/example.tex)  | [template](illiterally/data/blocks/block.tex)  | [Output](./docs/example.tex)  |
+
 
 # Setup
 
@@ -65,15 +76,15 @@ The output templates, markdown in this case, include references to the blocks us
 Hello World
 ===========
 
-Let's give this a try:
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 {{ macros.render('let-s-see') }}
 
-I guess it works:
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
 {{ macros.render('maybe') }}
 
-Here's a reference to the top level {{ macros.ref('let-s-see') }}.
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. {{ macros.ref('let-s-see') }}.
 
 `````
 

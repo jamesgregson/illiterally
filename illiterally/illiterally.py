@@ -168,40 +168,66 @@ def illiterally( source_files: list[str], block_template: list[str], output_file
     
     # generate index of all blocks in the source files
     blocks = {}
-    out_to_src_path = os.path.relpath( os.path.abspath(source_prefix), os.path.abspath(output_dir) )
+    duplicates, invalid = set(), set()
     print('  Building index:')
     for source_file in source_files:
-        rel_path = os.path.join( out_to_src_path, os.path.relpath(source_file,source_prefix)) 
-        print(f'    Processing file: {os.path.abspath(source_file)}, {rel_path}')
+        print(f'    Processing file: {os.path.abspath(source_file)}')
         file_blocks = BlockReader.index_blocks( source_file, left=left, right=right, suppress=suppress )
         for key,blk in file_blocks.items():
-            if key in blocks: print(f'      WARNING: Block "{key}" already exists, skipping.')
-            else: blocks[key] = blk
+            if key in blocks: 
+                print(f'      WARNING: Block "{key}" already exists, skipping.')
+                duplicates.add(key)
+            else:
+                print(f'      Found block at line {blk.line}: {blk.name}, key={key}') 
+                blocks[key] = blk
+
+    def is_valid( slug: str ):
+        if slug not in blocks:
+            invalid.add(slug)
+            return False
+        return True
 
     def block_cb( slug: str ):
-        return blocks[slug] if slug in blocks else None
+        return blocks[slug] if is_valid(slug) else None
     
     def render_cb1( out_file: str, slug: str ):
-        return blocks[slug].activate(out_file) if slug in blocks else None
+        print(f'      Block: {slug}')
+        return blocks[slug].activate(out_file) if is_valid(slug) else None
 
     # first pass over the output templates to flag which blocks get rendered by the output templates
+    print('  Building active block list...')
     for template_file in output_files:
+        print(f'    Template file: {template_file}...')
         out_file = os.path.abspath( os.path.join( output_dir, os.path.relpath(template_file,output_prefix) ) )
         template = env.from_string( open(template_file).read() )
         template.render( __file__ = out_file, block=block_cb, render_block=lambda slug: render_cb1(out_file,slug), include_file=lambda x: x )
 
     # Second pass to process all of the output templates and resolve the {{SRC_PATH}} variable
-    print(f'  Rendering output files... from {os.getcwd()}')
+    print(f'  Rendering output files...')
     for template_file in output_files:
+        print(f'    Rendering template: {template_file}...')
         out_file = os.path.abspath( os.path.join( output_dir, os.path.relpath(template_file,output_prefix) ) )
         os.makedirs( os.path.dirname( out_file ), exist_ok=True )
         print(f'    Rendering file: {os.path.abspath(out_file)}')
 
         def render_cb( slug ):
-            return blk_template.render( __file__ = out_file, slug=slug, block=block_cb, blocks=blocks, suppress=suppress )
+            print(f'      Block: {slug}')
+            return blk_template.render( __file__ = out_file, slug=slug, block=block_cb, blocks=blocks, suppress=suppress ) if is_valid(slug) else None
 
         template = env.from_string( open(template_file).read() )
         with open( out_file, 'w' ) as outf:
             outf.write( template.render( __file__ = out_file, block=block_cb, render_block=render_cb, include_file=lambda x: read_file(source_prefix,x) ))
+
+    if duplicates:
+        print(f'Duplicate blocks found: {" ".join([blk for blk in duplicates])}')
+    if invalid:
+        print(f'Invalid blocks referenced: {" ".join([blk for blk in invalid])}')
+
+    if len(duplicates) == 0 and len(invalid) == 0:
+        print('🔥 finished successfully!')
+        return 0
+    else:
+        print('🔥 completed with errors!')
+        return 1
 # 🚗
 # 🚗

@@ -37,7 +37,7 @@ def illiterally_cli( argv=sys.argv ):
         kwargs['left']  = args.left
         kwargs['right'] = args.right
 
-    illiterally( **kwargs )
+    return illiterally( **kwargs )
 
 def illiterally_demo():
     shutil.copyfile( data_file('examples/docs/example.cpp'), './example.cpp' )
@@ -77,6 +77,23 @@ def illiterally_dogfood():
         source_files=[ data_file('examples/docs/handmoji.cpp') ],
         block_template='block.md',
         output_files=[ data_file('examples/docs/handmoji.md') ],
+        output_prefix=data_file('examples'),
+        output_dir=data_file('../..'),
+    )
+
+    illiterally(
+        source_files=[ data_file('examples/docs/example.cpp') ],
+        block_template='block.tex',
+        output_files=[ data_file('examples/docs/example.tex') ],
+        output_prefix=data_file('examples'),
+        output_dir=data_file('../..'),
+        suppress=True
+    )
+
+    illiterally(
+        source_files=[ data_file('examples/docs/example.cpp') ],
+        block_template='block.html',
+        output_files=[ data_file('examples/docs/example.html') ],
         output_prefix=data_file('examples'),
         output_dir=data_file('../..'),
     )

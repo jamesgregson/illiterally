@@ -1,0 +1,27 @@
+{%- import 'macros.tex.inc' as macros with context -%}
+{%- set __blk = block(slug) -%}
+\begin{lstlisting}[label={{__blk.slug.replace('-','_')}},caption={{__blk.name}},frame=tb]
+{{__blk.text}}
+\end{lstlisting}
+\begin{flushright}
+\noindent\textbf{Path:}~
+{% if __blk.parent -%}
+{%- for comp in __blk.path -%}
+    {%- if comp != __blk.slug -%}
+        {{ macros.ref_or_name(comp) }}~|~
+    {%- else -%}
+        {{ __blk.name }}
+    {%- endif -%}
+{%- endfor -%}
+{%- endif %}
+{%- if __blk.nested %}
+\noindent\textbf{Children:}~
+{% for cref in __blk.nested %}
+{%- set child = block(cref) -%}
+{%- if child and child.is_rendered -%}
+{{ macros.ref_or_name(cref) }}
+{% endif -%}
+{% endfor %}
+{%- endif -%}
+\end{flushright}
+\bigskip
