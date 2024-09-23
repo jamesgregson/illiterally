@@ -48,25 +48,7 @@ pip install -e .
 
 # Basic Usage
 
-To use 🔥, you need annotated source files, output templates and a block template. Let's look at each using a basic C++ hello world example.
-
-The source files are simply regular code with 🔥 and 🧯 denoting the start and end of each snippet: 
-
-**[example.cpp](./illiterally/data/examples/docs/example.cpp):**
-`````cpp
-{{ include_file('illiterally/data/examples/docs/example.cpp') }}
-`````
-
-The output templates, markdown in this case, include references to the blocks using via their slug:
-
-**[example.md](./illiterally/data/examples/docs/example.md):**
-`````text
-{{ include_file('illiterally/data/examples/docs/example.md') }}
-`````
-
-The block template controls how each block is rendered to the file. 🔥 provides a set of basic templates for common text-based document formats but you can also define your own. Here's we'll use the built-in one for markdown [block.md](./illiterally/data/blocks/block.md) (note that you may want to look at the 'raw' file).
-
-To run this demo, move to an empty directory of your choice and run (with the venv active):
+To use 🔥, you need annotated source files, output templates and a block template. Let's look at each using a basic C++ hello world example. To run this demo, move to an empty directory of your choice and run (with the venv active):
 
 ```bash
 # this will set up the files seen above in your current directory
@@ -88,8 +70,24 @@ Starting 🔥
     Rendering file: /Users/james/Code/tmp/output/example.md
 ```
 
-The results should be the same as [docs/example.md](./docs/example.md), except with paths slightly different.
+The results should be the same as [docs/example.md](./docs/example.md), except with paths slightly different. Now check out the `example.cpp` and `example.md` files in your directory:
+
+The source files are simply regular code with 🔥 and 🧯 denoting the start and end of each snippet: 
+
+**[example.cpp](./illiterally/data/examples/docs/example.cpp):**
+`````cpp
+{{ include_file('illiterally/data/examples/docs/example.cpp') }}
+`````
+
+The output templates, markdown in this case, include references to the blocks using via their slug:
+
+**[example.md](./illiterally/data/examples/docs/example.md):**
+`````text
+{{ include_file('illiterally/data/examples/docs/example.md') }}
+`````
+
+The block template controls how each block is rendered to the file. 🔥 provides a set of basic templates for common text-based document formats but you can also define your own. Here's we'll use the built-in one for markdown [block.md](./illiterally/data/blocks/block.md) (note that you may want to look at the 'raw' file).
 
 # Implementation
 
-For an overview of how 🔥 works, check out [the implementation notes](./docs/implementation.md), e.g. here's a link to the {{ macros.ref('block-reader') }}.
+For an overview of how 🔥 works, check out [the implementation notes](./docs/implementation.md).
