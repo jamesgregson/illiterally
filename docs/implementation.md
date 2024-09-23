@@ -142,8 +142,8 @@ class Block:
     path:     list[str] = dataclasses.field(default_factory=list)
     left:     str = None
     right:    str = None
-    rendered:      str|None = None
-    rendered_into: str|None = None
+    rendered:      str = None
+    rendered_into: str = None
 
     @property
     def is_rendered( self ):
@@ -300,11 +300,11 @@ Bracket parsing is very simple, emojis are converted to a text representation an
 #### <a name="bracket-detection"></a>🚀**Bracket Detection**🚗: [../illiterally/illiterally.py: 110](../illiterally/illiterally.py)
 ___
 ```python
-    def is_left( self, line: str ) -> str | None:
+    def is_left( self, line: str ) -> str:
         toks = emoji.demojize(line).split(self.left)
         return toks[1].strip() if len(toks) == 2 else None
     
-    def is_right( self, line: str ) -> str | None:
+    def is_right( self, line: str ) -> str:
         toks = emoji.demojize(line).split(self.right)
         return toks[1].strip() if len(toks) == 2 else None
 
