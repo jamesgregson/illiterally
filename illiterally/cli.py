@@ -7,7 +7,7 @@ import argparse
 from illiterally import illiterally, data_file, root_dir
 
 def illiterally_cli( argv=sys.argv ):
-    parser = argparse.ArgumentParser('lit')
+    parser = argparse.ArgumentParser('illiterally')
     parser.add_argument('-s',         '--source', type=str, required=True,      help='Source file')
     parser.add_argument('-b',          '--block', type=str, required=True,      help='Block template')
     parser.add_argument('-o',         '--output', type=str, required=True,      help='Output template')
