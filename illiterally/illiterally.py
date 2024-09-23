@@ -31,8 +31,8 @@ class Block:
     path:     list[str] = dataclasses.field(default_factory=list)
     left:     str = None
     right:    str = None
-    rendered:      str|None = None
-    rendered_into: str|None = None
+    rendered:      str = None
+    rendered_into: str = None
 
     @property
     def is_rendered( self ):
