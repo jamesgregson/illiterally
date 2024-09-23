@@ -108,11 +108,11 @@ class BlockReader:
     # 🚗
 
     # 🚀 Bracket Detection
-    def is_left( self, line: str ) -> str | None:
+    def is_left( self, line: str ) -> str:
         toks = emoji.demojize(line).split(self.left)
         return toks[1].strip() if len(toks) == 2 else None
     
-    def is_right( self, line: str ) -> str | None:
+    def is_right( self, line: str ) -> str:
         toks = emoji.demojize(line).split(self.right)
         return toks[1].strip() if len(toks) == 2 else None
     # 🚗
