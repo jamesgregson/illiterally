@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "illiterally"
-version = "2024.0.6"
+version = "2024.0.7"
 dependencies = [ "python-slugify", "jinja2", "emoji", "pytest" ]
 requires-python = ">=3.9"
 authors = [ {name = "James Gregson", email = "james.gregson@gmail.com"} ]
