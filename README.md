@@ -91,7 +91,7 @@ int main( int argc, char **argv ){
 }
 //🧯
 `````
-
+ 
 The output templates, markdown in this case, include references to the blocks using via their slug:
 
 **[example.md](./docs/example.md):**

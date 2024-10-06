@@ -80,7 +80,7 @@ The source files are simply regular code with 🔥 and 🧯 denoting the start a
 `````cpp
 {{ include_file('./docs/example.cpp') }}
 `````
-
+ 
 The output templates, markdown in this case, include references to the blocks using via their slug:
 
 **[example.md](./docs/example.md):**

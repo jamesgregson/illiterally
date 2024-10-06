@@ -4,7 +4,8 @@ import stat
 import shutil
 import argparse
 
-from illiterally import illiterally, data_file, root_dir
+from .utils import data_file
+from .illiterally import illiterally
 
 def illiterally_cli( argv=sys.argv ):
     parser = argparse.ArgumentParser('illiterally')
@@ -97,7 +98,3 @@ def illiterally_dogfood():
         template_prefix=data_file('examples'),
         output_dir=data_file('../..'),
     )
-
-
-if __name__ == '__main__':
-    illiterally_dogfood()

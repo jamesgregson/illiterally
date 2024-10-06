@@ -1,6 +1,11 @@
 import os
 import shutil 
 
+def exclude_from_tests( fn ):
+    '''Decorated functions should not be treated as test cases by pytest'''
+    fn.__test__ = False
+    return fn
+
 def run_in_temp_directory():
     def decorator( fn: callable ):
         def wrapper( *args, **kwargs ):
@@ -15,5 +20,6 @@ def run_in_temp_directory():
         return wrapper
     return decorator
 
+@exclude_from_tests
 def test_data_dir():
     return os.path.join( os.path.dirname(__file__), 'test_data' )

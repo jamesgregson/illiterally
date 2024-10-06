@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "illiterally"
+version = "2024.0.0"
+dependencies = [
+    "python-slugify", 
+    "jinja2", 
+    "emoji", 
+    "pytest"
+]
+requires-python = ">=3.8"
+authors = [
+  {name = "James Gregson", email = "james.gregson@gmail.com"},
+]
+maintainers = [
+  {name = "James Gregson", email = "james.gregson@gmail.com"},
+]
+description = "Lovely Spam! Wonderful Spam!"
+readme = { file="README.md", content-type="text/markdown" }
+license = {file = "LICENSE"}
+keywords = ["egg", "bacon", "sausage", "tomatoes", "Lobster Thermidor"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
+
+#[project.optional-dependencies]
+#gui = ["PyQt5"]
+#cli = ["rich", "click"]
+
+#[project.urls]
+#Homepage = "https://example.com"
+#Documentation = "https://readthedocs.org"
+#Repository = "https://github.com/me/spam.git"
+#"Bug Tracker" = "https://github.com/me/spam/issues"
+#Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
+
+[project.scripts]
+illiterally = "illiterally.entry_points:illiterally_cli_entry_point"
+illiterally_demo = "illiterally.entry_points:illiterally_demo_entry_point"
+illiterally_dogfood = "illiterally.entry_points:illiterally_dogfood_entry_point"
+
+#[project.gui-scripts]
+#spam-gui = "spam:main_gui"
+
+#[project.entry-points."spam.magical"]
+#illiterally = "illiterally.entry_points:illiterally_cli_entry_point"
+#illiterally_demo = "illiterally.entry_points:illiterally_demo_entry_point"
+#illiterally_dogfoog = "illiterally.entry_points:illiterally_dogfood_entry_point"
