@@ -4,5 +4,6 @@ venv/
 *.egg-info/
 __pycache__/
 .DS_Store
+build/
 dist/
 tests/runs/
