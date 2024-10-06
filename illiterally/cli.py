@@ -23,7 +23,7 @@ def illiterally_cli( argv=sys.argv ):
         args = parser.parse_args( argv[1:] )   
         assert (args.left and args.right) or (not args.left and not args.right) 
     except:
-        sys.exit()
+        sys.exit(1)
 
     kwargs = dict(
         source_files     = args.source,
