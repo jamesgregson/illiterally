@@ -55,21 +55,26 @@ To use 🔥, you need annotated source files, output templates and a block templ
 ```bash
 # this will set up the files seen above in your current directory
 # and create a run.sh file that will generate the demo output
-lit_demo
+illiterally_demo
 ```
 
 Then run `chmod +x run.sh && ./run.sh` (linux/os-x) or copy it's contents to a terminal with the venv active and run it. This should print something like the following:
 
 ```bash
- % chmod +x run.sh ; ./run.sh
-Starting 🔥
-  Building index:
-    Processing file: /Users/james/Code/tmp/example.cpp, ../example.cpp
-  Loading block template: /Users/james/Code/illiterally/illiterally/data/blocks/block.md
-    Rendering block: maybe
-    Rendering block: let-s-see
-  Rendering output files... from /Users/james/Code/tmp
-    Rendering file: /Users/james/Code/tmp/output/example.md
+ % chmod +x run.sh && ./run.sh
+ Starting 🔥
+  Building active slug index...
+   Processing file: "/Users/james/Code/illiterally/tmp/example.cpp"...
+    Found block at line 6: maybe = "Maybe".
+    Found block at line 1: let-s-see = "Let's see".
+  Activating blocks from templates...
+   Template file: /Users/james/Code/illiterally/tmp/example.md...
+    Activated slug let-s-see for template "/Users/james/Code/illiterally/tmp/output/example.md".
+    Activated slug maybe for template "/Users/james/Code/illiterally/tmp/output/example.md".
+  Rendering blocks from templates...
+   Template file: /Users/james/Code/illiterally/tmp/example.md...
+    Rendered block let-s-see for template "/Users/james/Code/illiterally/tmp/output/example.md".
+    Rendered block maybe for template "/Users/james/Code/illiterally/tmp/output/example.md".
 ```
 
 The results should be the same as [docs/example.md](./docs/example.md), except with paths slightly different. Now check out the `example.cpp` and `example.md` files in your directory:
