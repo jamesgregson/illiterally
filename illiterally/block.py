@@ -45,7 +45,7 @@ class BlockReader:
         if left is None or right is None:
             left,right = BlockReader.detect_left_right( filename )
             if None in [left,right]:
-                raise RuntimeWarning(f'Error parsing: {filename}, autodetection of delimiters failed.')
+                return None
 
         dummy = Block('dummy','invalid',-1)
         reader = BlockReader( filename, *args, duplicates=duplicates, left=left, right=right, **kwargs )

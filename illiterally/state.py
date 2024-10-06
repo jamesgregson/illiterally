@@ -58,8 +58,11 @@ class State:
             duplicates = set()
             with self.log.indent():
                 for source_file in sorted( self.source_files ):
-                    self.log.info(f'Processing file: "{source_file}"...')
                     file_blocks = BlockReader.index_blocks( source_file, duplicates=induplicates, left=self.left, right=self.right, suppress=self.suppress )
+                    if file_blocks is None:
+                        self.log.info(f'No blocks found in {source_file}, skipping.')
+                        continue
+                    self.log.info(f'Processing file: "{source_file}"...')
                     for slug,block in file_blocks.items():
                         with self.log.indent():
                             if slug in blocks:

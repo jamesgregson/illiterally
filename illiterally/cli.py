@@ -1,10 +1,10 @@
 import os
 import sys
-import stat
+import glob
 import shutil
 import argparse
 
-from .utils import data_file
+from .utils import data_file, root_dir
 from .illiterally import illiterally
 
 def illiterally_cli( argv=sys.argv ):
@@ -59,7 +59,7 @@ def illiterally_dogfood():
     )
 
     illiterally(
-        source_files=[data_file('../illiterally.py')],
+        source_files=sorted(glob.glob(os.path.join(root_dir(),'*.py'))),
         block_template='block.md',
         template_files=[ data_file('examples/README.md'), data_file('examples/docs/implementation.md') ],
         template_prefix=data_file('examples'),
