@@ -1,0 +1,12 @@
+{%- import 'macros.txt.inc' as macros with context -%}
+{%- set __blk = block(slug) -%}
+{{__blk.left}}{{__blk.name}}{{__blk.right}}: {{__blk.source_path(__file__)}}: {{__blk.line}}
+===========================================================================================
+{{ __blk.text -}}
+===========================================================================================
+{% if __blk.parent -%}
+    {%- for comp in __blk.path -%}
+        {{ __blk.name }}
+        {%- if comp != __blk.slug %} | {% endif -%}
+    {%- endfor -%}
+{%- endif %}

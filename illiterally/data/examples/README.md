@@ -76,16 +76,16 @@ The results should be the same as [docs/example.md](./docs/example.md), except w
 
 The source files are simply regular code with 🔥 and 🧯 denoting the start and end of each snippet: 
 
-**[example.cpp](./illiterally/data/examples/docs/example.cpp):**
+**[example.cpp](./docs/example.cpp):**
 `````cpp
-{{ include_file('illiterally/data/examples/docs/example.cpp') }}
+{{ include_file('./docs/example.cpp') }}
 `````
 
 The output templates, markdown in this case, include references to the blocks using via their slug:
 
-**[example.md](./illiterally/data/examples/docs/example.md):**
+**[example.md](./docs/example.md):**
 `````text
-{{ include_file('illiterally/data/examples/docs/example.md') }}
+{{ include_file('./docs/example.md') }}
 `````
 
 The block template controls how each block is rendered to the file. 🔥 provides a set of basic templates for common text-based document formats but you can also define your own. Here's we'll use the built-in one for markdown [block.md](./illiterally/data/blocks/block.md) (note that you may want to look at the 'raw' file).

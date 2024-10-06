@@ -76,7 +76,7 @@ The results should be the same as [docs/example.md](./docs/example.md), except w
 
 The source files are simply regular code with 🔥 and 🧯 denoting the start and end of each snippet: 
 
-**[example.cpp](./illiterally/data/examples/docs/example.cpp):**
+**[example.cpp](./docs/example.cpp):**
 `````cpp
 //🔥 Let's see
 #include <iostream>
@@ -94,7 +94,7 @@ int main( int argc, char **argv ){
 
 The output templates, markdown in this case, include references to the blocks using via their slug:
 
-**[example.md](./illiterally/data/examples/docs/example.md):**
+**[example.md](./docs/example.md):**
 `````text
 {% import 'macros.md.inc' as macros with context %}
 Hello World

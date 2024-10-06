@@ -1,0 +1,7 @@
+{%- import 'macros.txt.inc' as macros with context -%}
+Output 1
+--------
+
+{{ macros.render('block-2') }}
+
+{{ macros.render('block-5') }}
