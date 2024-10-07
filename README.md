@@ -16,7 +16,7 @@ Snippets are defined simply by having a line containing 🔥. Everything that fo
 
 Here's some key features of 🔥:
 
-- **🔥 is simple:** The whole thing is around 200loc, generously. Want to change it? You definitely can.
+- **🔥 is simple:** The whole thing is around 400loc, generously. Want to change it? You definitely can.
 - **🔥 is unopinionated:** 🔥 maps text to text. It doesn't really care what's in the text before or after as long as there's delimiters.
 - **🔥 is unobtrusive:** It does not try to replace your work flow or tool chain. You just chuck some comments in your code.
 - **🔥 has a CLI and API:** When installed via pip, 🔥 exposes a simple `illiterally` command that mirrors the one public API call.
@@ -37,39 +37,54 @@ Really any reasonable text-based format can likely be supported, however there a
 
 # Setup
 
-Clone and run the following [(venv highly recommended)](https://docs.python.org/3/library/venv.html) from the repository directory:
+Choose one of the following:
 
 ```bash
-# initial os-x, linux venv setup
+# recommended initial virtual environment setup
 python3 -m venv venv
 source venv/bin/activate
+pip install --upgrade pip setuptools wheel
 
-# install the repo editable
-pip install -e .
+# then ONE of:
+
+# (1) install illiterally from PyPI
+pip install illiterally
+
+# (2) from bleeding-edge 
+pip install https://github.com/jamesgregson/illiterally.git
+
+# (3) for development
+git clone https://github.com/jamesgregson/illiterally.git
+pip install -e ./illiterally
 ```
 
-# Basic Usage
+# Simple Demo
 
 To use 🔥, you need annotated source files, output templates and a block template. Let's look at each using a basic C++ hello world example. To run this demo, move to an empty directory of your choice and run (with the venv active):
 
 ```bash
 # this will set up the files seen above in your current directory
 # and create a run.sh file that will generate the demo output
-lit_demo
+illiterally_demo
 ```
 
 Then run `chmod +x run.sh && ./run.sh` (linux/os-x) or copy it's contents to a terminal with the venv active and run it. This should print something like the following:
 
 ```bash
- % chmod +x run.sh ; ./run.sh
-Starting 🔥
-  Building index:
-    Processing file: /Users/james/Code/tmp/example.cpp, ../example.cpp
-  Loading block template: /Users/james/Code/illiterally/illiterally/data/blocks/block.md
-    Rendering block: maybe
-    Rendering block: let-s-see
-  Rendering output files... from /Users/james/Code/tmp
-    Rendering file: /Users/james/Code/tmp/output/example.md
+ % chmod +x run.sh && ./run.sh
+ Starting 🔥
+  Building active slug index...
+   Processing file: "/Users/james/Code/illiterally/tmp/example.cpp"...
+    Found block at line 6: maybe = "Maybe".
+    Found block at line 1: let-s-see = "Let's see".
+  Activating blocks from templates...
+   Template file: /Users/james/Code/illiterally/tmp/example.md...
+    Activated slug let-s-see for template "/Users/james/Code/illiterally/tmp/output/example.md".
+    Activated slug maybe for template "/Users/james/Code/illiterally/tmp/output/example.md".
+  Rendering blocks from templates...
+   Template file: /Users/james/Code/illiterally/tmp/example.md...
+    Rendered block let-s-see for template "/Users/james/Code/illiterally/tmp/output/example.md".
+    Rendered block maybe for template "/Users/james/Code/illiterally/tmp/output/example.md".
 ```
 
 The results should be the same as [docs/example.md](./docs/example.md), except with paths slightly different. Now check out the `example.cpp` and `example.md` files in your directory:

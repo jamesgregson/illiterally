@@ -16,7 +16,7 @@ Snippets are defined simply by having a line containing 🔥. Everything that fo
 
 Here's some key features of 🔥:
 
-- **🔥 is simple:** The whole thing is around 200loc, generously. Want to change it? You definitely can.
+- **🔥 is simple:** The whole thing is around 400loc, generously. Want to change it? You definitely can.
 - **🔥 is unopinionated:** 🔥 maps text to text. It doesn't really care what's in the text before or after as long as there's delimiters.
 - **🔥 is unobtrusive:** It does not try to replace your work flow or tool chain. You just chuck some comments in your code.
 - **🔥 has a CLI and API:** When installed via pip, 🔥 exposes a simple `illiterally` command that mirrors the one public API call.
@@ -37,18 +37,28 @@ Really any reasonable text-based format can likely be supported, however there a
 
 # Setup
 
-Clone and run the following [(venv highly recommended)](https://docs.python.org/3/library/venv.html) from the repository directory:
+Choose one of the following:
 
 ```bash
-# initial os-x, linux venv setup
+# recommended initial virtual environment setup
 python3 -m venv venv
 source venv/bin/activate
+pip install --upgrade pip setuptools wheel
 
-# install the repo editable
-pip install -e .
+# then ONE of:
+
+# (1) install illiterally from PyPI
+pip install illiterally
+
+# (2) from bleeding-edge 
+pip install https://github.com/jamesgregson/illiterally.git
+
+# (3) for development
+git clone https://github.com/jamesgregson/illiterally.git
+pip install -e ./illiterally
 ```
 
-# Basic Usage
+# Simple Demo
 
 To use 🔥, you need annotated source files, output templates and a block template. Let's look at each using a basic C++ hello world example. To run this demo, move to an empty directory of your choice and run (with the venv active):
 

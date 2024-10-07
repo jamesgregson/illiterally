@@ -23,16 +23,15 @@ from illiterally.state import State
 
 # 🚀 Entry Point 🚗
 
-
 ```
 
-- [Entry Point](#entry-point)
+- [Entry Point](/Users/james/Code/illiterally/docs/implementation.md#entry-point)
 
 ___
 
 The stuff above is a code block rendered with the provided markdown template. 🔥 highlights that this is a block and provides a link to the source file, then includes the block itself. Any nested blocks are condensed. It also provides a list of direct links to the nested links.
 
-> Except for the code block itself, none of the above is done by 🔥. It's actually customized by the template, which provides links to the source file, sub-block links and breadcrumbs (See [Block Definition](#block-definition)) for lower block levels. Also the `utility-functions` bullet is not a link because the block hasn't been rendered anywhere in the output. The markdown template prints an error for blocks that are referenced but not rendered <font color="red">RefMissingBlock(utility-functions)</font> or that are referenced but don't exist at all <font color="red">RefInvalidSlug(missing-block)</font>.
+> Except for the code block itself, none of the above is done by 🔥. It's actually customized by the template, which provides links to the source file, sub-block links and breadcrumbs (See [Block Definition](/Users/james/Code/illiterally/docs/implementation.md#block-definition)) for lower block levels. Also the `utility-functions` bullet is not a link because the block hasn't been rendered anywhere in the output. The markdown template prints an error for blocks that are referenced but not rendered <font color="red">RefMissingBlock(utility-functions)</font> or that are referenced but don't exist at all <font color="red">RefInvalidSlug(missing-block)</font>.
 
 ## Main Entry Point
 
@@ -41,7 +40,7 @@ The main function for 🔥 is quite simple. It just reads the input files, parse
 #### <a name="entry-point"></a>🚀**Entry Point**🚗: [../illiterally/illiterally.py: 14](../illiterally/illiterally.py)
 ___
 ```python
-def illiterally( source_files: list[str], template_files: list[str], block_template: str, output_dir: str='./output', source_prefix: Optional[str]=None, template_prefix: Optional[str]=None, left: str=None, right: str=None, suppress: bool=False ):
+def illiterally( source_files: list[str], template_files: list[str], block_template: str, output_dir: str='./output', source_prefix: Optional[str]=None, template_prefix: Optional[str]=None, left: str=None, right: str=None, source_url: str='', output_url: str='', suppress: bool=False ):
     S = State(
         source_files = source_files,
         template_files = template_files,
@@ -51,6 +50,8 @@ def illiterally( source_files: list[str], template_files: list[str], block_templ
         template_prefix = template_prefix,
         left = left,
         right = right,
+        source_url = source_url,
+        output_url = output_url,
         suppress = suppress
     )
 
@@ -72,7 +73,7 @@ def illiterally( source_files: list[str], template_files: list[str], block_templ
 
 
 ```
-<span>[Illiterally Implementation](#illiterally-implementation) |&nbsp;Entry Point</span>
+<span>[Illiterally Implementation](/Users/james/Code/illiterally/docs/implementation.md#illiterally-implementation) |&nbsp;Entry Point</span>
 
 ___
 
@@ -80,36 +81,28 @@ ___
 
 Blocks represent parsed snippets of the input and store their ancestor and descendants and path to the root, all referenced as slugs (see below). The hierarchy information allows navigation links and breadcrumbs between code snippets. The blocks also store information about the line they start at, the file they were produced from and the slug that will be used to reference them:
 
-#### <a name="block-definition"></a>🚀**Block Definition**🚗: [../illiterally/block.py: 9](../illiterally/block.py)
+#### <a name="block-definition"></a>🚀**Block Definition**🚗: [../illiterally/block.py: 10](../illiterally/block.py)
 ___
 ```python
 @dataclasses.dataclass
 class Block:
-    name:      str
-    filename:  str
-    line:      int 
-    text:      str = ''
-    slug:      str = ''
-    slug_base: str = ''
-    parent:    str = ''
-    nested:    list[str] = dataclasses.field(default_factory=list)
-    path:      list[str] = dataclasses.field(default_factory=list)
-    left:      str = None
-    right:     str = None
-    #rendered:      str = None
-    rendered_into: str = None
+    name:          str          # name of block as read from file
+    filename:      str          # source file block was found in
+    line:          int          # line number where block was found
+    text:          str = ''     # contents of the block
+    slug:          str = ''     # the (potentially de-duplicated) block slug
+    slug_base:     str = ''     # the original slug before de-duplication
+    left:          str = None   # left delimiter
+    right:         str = None   # right delimiter
+    rendered_into: str = None   # file this block was rendered into
+
+    parent:    str = ''     # slug of the parent block
+    nested:    list[str] = dataclasses.field(default_factory=list) # first level of nested blocks, by slug
+    path:      list[str] = dataclasses.field(default_factory=list) # slug path from root to this block
 
     @property
-    def is_rendered( self ):
+    def is_rendered( self ) -> bool:
         return self.rendered_into is not None
-
-    def source_path( self, targ: str ):
-        return os.path.relpath( self.filename, os.path.dirname(targ) )
-
-    def ref(self, targ: str ):
-        if self.rendered_into == targ:
-            return ''
-        return os.path.relpath( self.rendered_into, os.path.dirname(targ) ) if self.rendered_into else 'INVALID'
 
 ```
 
@@ -124,7 +117,7 @@ The final field, `Block.rendered` contains the rendered text from the block temp
 
 The parser is a simple recursive descent bracket matching parser.  
 
-#### <a name="block-reader"></a>🚀**Block Reader**🚗: [../illiterally/block.py: 39](../illiterally/block.py)
+#### <a name="block-reader"></a>🚀**Block Reader**🚗: [../illiterally/block.py: 32](../illiterally/block.py)
 ___
 ```python
 class BlockReader:
@@ -141,16 +134,16 @@ class BlockReader:
 
 ```
 
-- [Entry point for parsing](#entry-point-for-parsing)
-- [Parser state](#parser-state)
-- [Bracket Detection](#bracket-detection)
-- [Block parsing](#block-parsing)
+- [Entry point for parsing](/Users/james/Code/illiterally/docs/implementation.md#entry-point-for-parsing)
+- [Parser state](/Users/james/Code/illiterally/docs/implementation.md#parser-state)
+- [Bracket Detection](/Users/james/Code/illiterally/docs/implementation.md#bracket-detection)
+- [Block parsing](/Users/james/Code/illiterally/docs/implementation.md#block-parsing)
 
 ___
 
 The parser itself is a class simply to maintain the small amount of state needed to track blocks that are encountered, the state of the input file and so on:
 
-#### <a name="parser-state"></a>🚀**Parser state**🚗: [../illiterally/block.py: 72](../illiterally/block.py)
+#### <a name="parser-state"></a>🚀**Parser state**🚗: [../illiterally/block.py: 65](../illiterally/block.py)
 ___
 ```python
     def __init__( self, filename, duplicates: Set[str]=None, left: str=':fire:', right: str=':fire_extinguisher:', suppress: bool=False ):
@@ -171,13 +164,13 @@ ___
         return line
 
 ```
-<span>[Block Reader](#block-reader) |&nbsp;Parser state</span>
+<span>[Block Reader](/Users/james/Code/illiterally/docs/implementation.md#block-reader) |&nbsp;Parser state</span>
 
 ___
 
 The `BlockParser` class should not be instantiated directly. Instead the entry point for the parser is the static method `BlockReader.index_blocks`:
 
-#### <a name="entry-point-for-parsing"></a>🚀**Entry point for parsing**🚗: [../illiterally/block.py: 42](../illiterally/block.py)
+#### <a name="entry-point-for-parsing"></a>🚀**Entry point for parsing**🚗: [../illiterally/block.py: 35](../illiterally/block.py)
 ___
 ```python
     @staticmethod
@@ -193,13 +186,13 @@ ___
         return reader.blocks
 
 ```
-<span>[Block Reader](#block-reader) |&nbsp;Entry point for parsing</span>
+<span>[Block Reader](/Users/james/Code/illiterally/docs/implementation.md#block-reader) |&nbsp;Entry point for parsing</span>
 
 ___
 
 It just sets up a dummy block that will be discarded and starts the recursion. The recursion just reads lines and checks for opening/closing emojis. If none are present, the current line is appended to the open block (initially a dummy block). Whenever a closing emoji is found, the current block ends and the function returns. Whenever an opening emoji is found, the function recurses on a new block, setting up hierarchy references and suspending adding lines to the previous block until the new block is complete.
 
-#### <a name="block-parsing"></a>🚀**Block parsing**🚗: [../illiterally/block.py: 101](../illiterally/block.py)
+#### <a name="block-parsing"></a>🚀**Block parsing**🚗: [../illiterally/block.py: 94](../illiterally/block.py)
 ___
 ```python
     def read_block( self, block: Block ):
@@ -241,13 +234,13 @@ ___
                 block.text += line
 
 ```
-<span>[Block Reader](#block-reader) |&nbsp;Block parsing</span>
+<span>[Block Reader](/Users/james/Code/illiterally/docs/implementation.md#block-reader) |&nbsp;Block parsing</span>
 
 ___
 
 Bracket parsing is very simple, emojis are converted to a text representation and the input line is split with them. Content following open delimiters is stripped and forms a new snippet name:
 
-#### <a name="bracket-detection"></a>🚀**Bracket Detection**🚗: [../illiterally/block.py: 91](../illiterally/block.py)
+#### <a name="bracket-detection"></a>🚀**Bracket Detection**🚗: [../illiterally/block.py: 84](../illiterally/block.py)
 ___
 ```python
     def is_left( self, line: str ) -> str:
@@ -259,7 +252,7 @@ ___
         return toks[1].strip() if len(toks) == 2 else None
 
 ```
-<span>[Block Reader](#block-reader) |&nbsp;Bracket Detection</span>
+<span>[Block Reader](/Users/james/Code/illiterally/docs/implementation.md#block-reader) |&nbsp;Bracket Detection</span>
 
 ___
 

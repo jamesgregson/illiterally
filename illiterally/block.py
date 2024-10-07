@@ -1,39 +1,32 @@
 from typing import *
 import dataclasses
 import os
+import urllib.parse
+
 
 import emoji
 import slugify
 
-
 # 🚀 Block Definition
 @dataclasses.dataclass
 class Block:
-    name:      str
-    filename:  str
-    line:      int 
-    text:      str = ''
-    slug:      str = ''
-    slug_base: str = ''
-    parent:    str = ''
-    nested:    list[str] = dataclasses.field(default_factory=list)
-    path:      list[str] = dataclasses.field(default_factory=list)
-    left:      str = None
-    right:     str = None
-    #rendered:      str = None
-    rendered_into: str = None
+    name:          str          # name of block as read from file
+    filename:      str          # source file block was found in
+    line:          int          # line number where block was found
+    text:          str = ''     # contents of the block
+    slug:          str = ''     # the (potentially de-duplicated) block slug
+    slug_base:     str = ''     # the original slug before de-duplication
+    left:          str = None   # left delimiter
+    right:         str = None   # right delimiter
+    rendered_into: str = None   # file this block was rendered into
+
+    parent:    str = ''     # slug of the parent block
+    nested:    list[str] = dataclasses.field(default_factory=list) # first level of nested blocks, by slug
+    path:      list[str] = dataclasses.field(default_factory=list) # slug path from root to this block
 
     @property
-    def is_rendered( self ):
+    def is_rendered( self ) -> bool:
         return self.rendered_into is not None
-
-    def source_path( self, targ: str ):
-        return os.path.relpath( self.filename, os.path.dirname(targ) )
-
-    def ref(self, targ: str ):
-        if self.rendered_into == targ:
-            return ''
-        return os.path.relpath( self.rendered_into, os.path.dirname(targ) ) if self.rendered_into else 'INVALID'
 # 🚗
 
 # 🚀 Block Reader

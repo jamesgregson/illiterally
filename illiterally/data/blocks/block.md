@@ -1,6 +1,6 @@
 {%- import 'macros.md.inc' as macros with context -%}
 {%- set __blk = block(slug) -%}
-#### <a name="{{__blk.slug}}"></a>{{__blk.left}}**{{__blk.name}}**{{__blk.right}}: [{{__blk.source_path(__file__)}}: {{__blk.line}}]({{__blk.source_path(__file__)}})
+#### <a name="{{__blk.slug}}"></a>{{__blk.left}}**{{__blk.name}}**{{__blk.right}}: [{{source_url(__blk.filename,__file__)}}: {{__blk.line}}]({{source_url(__blk.filename,__file__)}})
 ___
 ```python
 {{__blk.text}}

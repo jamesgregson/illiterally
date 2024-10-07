@@ -1,6 +1,6 @@
 {%- import 'macros.txt.inc' as macros with context -%}
 {%- set __blk = block(slug) -%}
-{{__blk.left}}{{__blk.name}}{{__blk.right}}: {{__blk.source_path(__file__)}}: {{__blk.line}}
+{{__blk.left}}{{__blk.name}}{{__blk.right}}: {{source_url(__blk.filename,__file__)}}: {{__blk.line}}
 ===========================================================================================
 {{ __blk.text -}}
 ===========================================================================================

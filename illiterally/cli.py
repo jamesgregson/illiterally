@@ -15,9 +15,11 @@ def illiterally_cli( argv=sys.argv ):
     parser.add_argument('-sp',   '--source-prefix', type=str,            default='.',        help='Prefix removed from source filenames in output')
     parser.add_argument('-op', '--template-prefix', type=str,            default='.',        help='Prefix removed from output filenames')
     parser.add_argument('-od',      '--output-dir', type=str,            default='./output', help='Save output files relative to this directory' )
-    parser.add_argument( '-x',        '--suppress', action='store_true',                     help='Provide empty strings to templates as delimiters')
+    parser.add_argument('-x',         '--suppress', action='store_true',                     help='Provide empty strings to templates as delimiters')
     parser.add_argument('-l',             '--left', type=str,            default=None,       help='Optional: Left bracket string')
     parser.add_argument('-r',            '--right', type=str,            default=None,       help='Optional: Right bracket string')
+    parser.add_argument('-su',      '--source-url', type=str,            default='',         help='Optional: URL prefix for source files')
+    parser.add_argument('-ou',      '--output-url', type=str,            default='',         help='Optional: URL prefix source output files')
     
     try:
         args = parser.parse_args( argv[1:] )   
@@ -33,6 +35,8 @@ def illiterally_cli( argv=sys.argv ):
         source_prefix    = args.source_prefix,
         template_prefix  = args.template_prefix,
         output_dir       = args.output_dir,
+        source_url       = args.source_url,
+        output_url       = args.output_url
     )
     if args.left and args.right:
         kwargs['left']  = args.left

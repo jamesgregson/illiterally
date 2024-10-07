@@ -2,7 +2,7 @@
     {%- set __blk = block(slug) -%}
     {%- if __blk -%}
         {%- if __blk.is_rendered -%}
-            <a href="{{__blk.ref(__file__)}}#{{__blk.slug}}">{{__blk.name}}</a>
+            <a href="{{reference(__blk,__file__)}}#{{__blk.slug}}">{{__blk.name}}</a>
         {%- else -%}
             <font color="red">RefMissingBlock({{__blk.slug}})</font>
         {%- endif -%}
@@ -15,7 +15,7 @@
     {%- set __blk = block(slug) -%}
     {%- if __blk -%}
         {%- if __blk.is_rendered -%}
-            <a href="{{__blk.ref(__file__)}}#{{__blk.slug}}">{{__blk.name}}</a>
+            <a href="{{reference(__blk,__file__)}}#{{__blk.slug}}">{{__blk.name}}</a>
         {%- else -%}
             {{ __blk.name }}
         {%- endif -%}

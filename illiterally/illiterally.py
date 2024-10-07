@@ -12,7 +12,7 @@ from illiterally.block import Block,BlockReader
 from illiterally.state import State
 
 # 🚀 Entry Point
-def illiterally( source_files: list[str], template_files: list[str], block_template: str, output_dir: str='./output', source_prefix: Optional[str]=None, template_prefix: Optional[str]=None, left: str=None, right: str=None, suppress: bool=False ):
+def illiterally( source_files: list[str], template_files: list[str], block_template: str, output_dir: str='./output', source_prefix: Optional[str]=None, template_prefix: Optional[str]=None, left: str=None, right: str=None, source_url: str='', output_url: str='', suppress: bool=False ):
     S = State(
         source_files = source_files,
         template_files = template_files,
@@ -22,6 +22,8 @@ def illiterally( source_files: list[str], template_files: list[str], block_templ
         template_prefix = template_prefix,
         left = left,
         right = right,
+        source_url = source_url,
+        output_url = output_url,
         suppress = suppress
     )
 
@@ -42,5 +44,4 @@ def illiterally( source_files: list[str], template_files: list[str], block_templ
     return 0
 
 # 🚗
-
 # 🚗
