@@ -11,7 +11,7 @@ class State:
     def __init__( self, source_files: list[str], template_files: list[str], block_template: str, output_dir: str='./output', source_prefix: Optional[str]=None, template_prefix: Optional[str]=None, left:str=None, right:str=None, source_url: Optional[str]=None, output_url: Optional[str]=None, suppress:bool=False, log_file:str=None ):
         # log file
         self.log = Log( log_file )
-        self.log.info('Starting 🔥')
+        self.log.info('🔥 Starting...')
 
         # source files contain the source of blocks and source_prefix
         # defines the root directory with which relative paths are defined
@@ -47,6 +47,9 @@ class State:
         self.right = right 
 
         # output url prefix
+        if (source_url and not output_url) or (output_url and not source_url):
+            self.log.error('Must specify both or neither of "source_url" and "output_url"')
+
         self._source_url = source_url
         self._output_url = output_url
 

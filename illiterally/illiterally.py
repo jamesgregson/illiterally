@@ -13,35 +13,43 @@ from illiterally.state import State
 
 # 🚀 Entry Point
 def illiterally( source_files: list[str], template_files: list[str], block_template: str, output_dir: str='./output', source_prefix: Optional[str]=None, template_prefix: Optional[str]=None, left: str=None, right: str=None, source_url: str='', output_url: str='', suppress: bool=False ):
-    S = State(
-        source_files = source_files,
-        template_files = template_files,
-        block_template = block_template, 
-        output_dir = output_dir,
-        source_prefix = source_prefix,
-        template_prefix = template_prefix,
-        left = left,
-        right = right,
-        source_url = source_url,
-        output_url = output_url,
-        suppress = suppress
-    )
+    try: 
+        S = State(
+            source_files = source_files,
+            template_files = template_files,
+            block_template = block_template, 
+            output_dir = output_dir,
+            source_prefix = source_prefix,
+            template_prefix = template_prefix,
+            left = left,
+            right = right,
+            source_url = source_url,
+            output_url = output_url,
+            suppress = suppress
+        )
+        if S.log.errors > 0:
+            S.log.fatal('State initialization invalid, check log/arguments')
 
-    # build a list of all slugs in the source files
-    blocks,duplicates = S.parse_blocks()
-    if len(duplicates) > 0:
-        # duplicates found, de-duplicate
-        blocks,duplicates = S.parse_blocks(duplicates)
+        # build a list of all slugs in the source files
+        blocks,duplicates = S.parse_blocks()
         if len(duplicates) > 0:
-            # duplicates still found. What the...
-            return 1
+            # duplicates found, de-duplicate
+            blocks,duplicates = S.parse_blocks(duplicates)
+            if len(duplicates) > 0:
+                # duplicates still found. What the...
+                S.log.fatal('Duplicate blocks found after de-duplication, should never happen.')
 
-    # now go over all of the template files and activate
-    # any blocks that they will render
-    S.activate_blocks_from_templates( blocks )
-    S.render_blocks_from_templates( blocks )
-
+        # now go over all of the template files and activate
+        # any blocks that they will render
+        S.activate_blocks_from_templates( blocks )
+        S.render_blocks_from_templates( blocks )
+    except RuntimeError as err:
+        S.log.info('🧯 Finished with fatal error')
+        return 2
+    if S.log.errors != 0:
+        S.log.info('🧯 Finished with errors')
+        return 1
+    S.log.info('🧯 Finished successfully')
     return 0
-
 # 🚗
 # 🚗

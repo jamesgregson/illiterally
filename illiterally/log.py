@@ -10,6 +10,10 @@ class Log:
     def indent( self ):
         return Indent( self )
 
+    def fatal( self, *args, **kwargs ):
+        self.info('[FATAL]: ', *args, **kwargs )
+        raise RuntimeError('Fatal error.')
+
     def error( self, *args, **kwargs ):
         self.errors += 1
         self.info( '[ERROR]: ', *args, **kwargs )
@@ -20,7 +24,7 @@ class Log:
 
     def info( self, *args, **kwargs ):
         with io.StringIO() as out:
-            print( ' '*self.scope, *args, file=out, end=None )
+            print( '  '*self.scope, *args, file=out, end=None )
             contents = out.getvalue()
         print( contents.rstrip() )
         if self.file is not None:
